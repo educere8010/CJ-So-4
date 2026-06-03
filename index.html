@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>천재(소영순) Lesson 4 · 학습앱</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,500&family=Gowun+Dodum&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F1E8;
+    --card:#FFFDF8;
+    --ink:#221C15;
+    --ink-soft:#5B5246;
+    --ink-faint:#8C8170;
+    --accent:#C75B2C;
+    --accent-deep:#9E4419;
+    --accent-wash:#F4E3D6;
+    --safe:#2F7A66;
+    --safe-wash:#DDEBE5;
+    --line:#E4DACB;
+    --line-strong:#D2C5B0;
+    --shadow:0 1px 2px rgba(60,45,25,.05), 0 10px 30px -12px rgba(80,55,25,.18);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Gowun Dodum","Noto Sans KR",sans-serif;
+    line-height:1.75;
+    font-size:16px;
+    background-image:radial-gradient(rgba(160,130,90,.05) 1px, transparent 1px);
+    background-size:22px 22px;
+    -webkit-font-smoothing:antialiased;
+  }
+  .eng{font-family:"Fraunces",Georgia,serif;}
+  header{
+    padding:34px 20px 26px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+    background:linear-gradient(180deg,#FBF6EC 0%, var(--paper) 100%);
+    position:relative;
+    overflow:hidden;
+  }
+  header .kicker{
+    display:inline-block;
+    font-size:12px;letter-spacing:.28em;text-transform:uppercase;
+    color:var(--accent);font-weight:700;
+    border:1px solid var(--accent);border-radius:30px;
+    padding:5px 16px;margin-bottom:16px;
+  }
+  header h1{
+    font-family:"Fraunces",serif;font-weight:800;
+    font-size:clamp(28px,7vw,46px);line-height:1.1;
+    letter-spacing:-.01em;
+  }
+  header h1 .sub{display:block;font-size:clamp(15px,4vw,20px);color:var(--ink-soft);font-weight:500;font-style:italic;margin-top:8px;font-family:"Fraunces",serif;}
+  header .meta{margin-top:14px;color:var(--ink-faint);font-size:14px;}
+  nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(246,241,232,.92);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line-strong);
+    padding:8px 0;
+  }
+  .nav-scroll{
+    display:flex;gap:6px;overflow-x:auto;padding:0 14px;
+    scrollbar-width:none;max-width:920px;margin:0 auto;
+  }
+  .nav-scroll::-webkit-scrollbar{display:none}
+  .nav-scroll button{
+    flex:0 0 auto;border:1px solid transparent;background:transparent;
+    color:var(--ink-soft);font-family:inherit;font-size:14.5px;font-weight:500;
+    padding:9px 15px;border-radius:30px;cursor:pointer;white-space:nowrap;
+    transition:all .18s ease;
+  }
+  .nav-scroll button:hover{background:var(--accent-wash);color:var(--accent-deep)}
+  .nav-scroll button.active{background:var(--accent);color:#fff;box-shadow:0 4px 12px -4px rgba(199,91,44,.6)}
+  main{max-width:760px;margin:0 auto;padding:26px 18px 80px;}
+  .tab{display:none;animation:fade .4s ease}
+  .tab.show{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .section-head{display:flex;align-items:baseline;gap:12px;margin:6px 0 18px;flex-wrap:wrap}
+  .section-head h2{font-family:"Fraunces",serif;font-size:26px;font-weight:700}
+  .section-head .ko{color:var(--ink-faint);font-size:15px}
+  .lead{color:var(--ink-soft);margin-bottom:22px;font-size:15px}
+  .card{
+    background:var(--card);border:1px solid var(--line);border-radius:18px;
+    padding:22px;margin-bottom:18px;box-shadow:var(--shadow);
+  }
+  .card-title{
+    display:flex;align-items:center;gap:10px;font-weight:700;font-size:17px;
+    margin-bottom:4px;color:var(--ink);
+  }
+  .pill{
+    font-size:11px;font-weight:700;letter-spacing:.04em;padding:3px 9px;border-radius:20px;
+    background:var(--accent-wash);color:var(--accent-deep);
+  }
+  .pill.safe{background:var(--safe-wash);color:var(--safe)}
+  .card-sub{color:var(--ink-faint);font-size:13px;margin-bottom:14px}
+  .toggle-row{display:flex;justify-content:flex-end;margin-bottom:14px}
+  .toggle-btn{
+    background:var(--ink);color:#fff;border:none;font-family:inherit;font-size:13px;
+    padding:8px 16px;border-radius:30px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;
+    transition:transform .15s;
+  }
+  .toggle-btn:active{transform:scale(.96)}
+  .line{padding:7px 0;border-bottom:1px dashed var(--line);}
+  .line:last-child{border-bottom:none}
+  .line .who{display:inline-block;min-width:30px;font-weight:700;color:var(--accent);font-family:"Fraunces",serif}
+  .line .en{font-family:"Fraunces",serif;font-size:16.5px}
+  .line .ko-t{display:none;color:var(--ink-soft);font-size:14px;margin-top:3px;padding-left:34px}
+  .show-ko .line .ko-t{display:block}
+  mark{background:var(--accent-wash);color:var(--accent-deep);padding:0 3px;border-radius:4px;font-weight:600;}
+  mark.g{background:var(--safe-wash);color:var(--safe)}
+  .para{margin-bottom:16px}
+  .para .en{font-family:"Fraunces",serif;font-size:17px;line-height:1.85}
+  .para .ko-t{display:none;color:var(--ink-soft);font-size:14.5px;margin-top:8px;padding:12px 14px;background:#FBF6EC;border-left:3px solid var(--line-strong);border-radius:0 8px 8px 0}
+  .show-ko .para .ko-t{display:block}
+  .pnum{display:inline-flex;width:24px;height:24px;border-radius:50%;background:var(--ink);color:#fff;font-size:12px;align-items:center;justify-content:center;font-family:"Fraunces",serif;margin-right:8px;vertical-align:1px}
+  .story-title{font-family:"Fraunces",serif;font-size:18px;font-weight:700;color:var(--accent-deep);margin:2px 0 12px;padding-bottom:6px;border-bottom:2px solid var(--accent-wash)}
+  .ex-eng{font-family:"Fraunces",serif;font-size:16px;color:var(--ink);margin:2px 0}
+  .ex-ko{color:var(--ink-faint);font-size:13.5px;margin-bottom:10px}
+  .gbox{background:#FBF6EC;border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:12px 0}
+  .gbox .label{font-weight:700;color:var(--accent-deep);font-size:14px;margin-bottom:6px}
+  .ex-list li{list-style:none;padding:6px 0;border-bottom:1px dashed var(--line)}
+  .ex-list li:last-child{border:none}
+  table.usage{width:100%;border-collapse:collapse;margin-top:8px;font-size:14px}
+  table.usage td{padding:8px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+  table.usage td:first-child{font-weight:700;color:var(--safe);white-space:nowrap;width:74px}
+  details.analysis{margin-top:14px;border-top:1px solid var(--line);}
+  details.analysis summary{list-style:none;cursor:pointer;font-size:13.5px;font-weight:700;color:var(--accent-deep);padding:11px 0 7px;display:flex;align-items:center;gap:7px;user-select:none}
+  details.analysis summary::-webkit-details-marker{display:none}
+  details.analysis summary::after{content:"▾";margin-left:auto;transition:transform .2s;color:var(--ink-faint);font-size:12px}
+  details.analysis[open] summary::after{transform:rotate(180deg)}
+  .ana-body{padding:2px 0 4px}
+  .ana-item{font-size:13.5px;color:var(--ink-soft);padding:8px 0;border-bottom:1px dashed var(--line);line-height:1.65}
+  .ana-item:last-child{border:none}
+  .ana-key{font-family:"Fraunces",serif;font-weight:700;color:var(--accent-deep)}
+  .ana-item.g .ana-key{color:var(--safe)}
+  .vocab-controls{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;align-items:center}
+  .filter-btn{border:1px solid var(--line-strong);background:var(--card);color:var(--ink-soft);font-family:inherit;font-size:13px;padding:7px 14px;border-radius:30px;cursor:pointer}
+  .filter-btn.active{background:var(--safe);color:#fff;border-color:var(--safe)}
+  .vocab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+  .flip{perspective:900px;height:96px;cursor:pointer}
+  .flip-in{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d}
+  .flip.flipped .flip-in{transform:rotateY(180deg)}
+  .flip-face{position:absolute;inset:0;backface-visibility:hidden;display:flex;align-items:center;justify-content:center;text-align:center;border-radius:14px;padding:8px;border:1px solid var(--line)}
+  .flip-front{background:var(--card);font-family:"Fraunces",serif;font-size:16px;font-weight:600}
+  .flip-back{background:var(--ink);color:#fff;transform:rotateY(180deg);font-size:14.5px}
+  .flip-back small{display:block;color:#caa;font-family:"Fraunces",serif;font-size:11px;margin-top:4px}
+  .hint{font-size:13px;color:var(--ink-faint);margin-bottom:14px;text-align:center}
+  .q{margin-bottom:14px}
+  .q .qnum{font-family:"Fraunces",serif;color:var(--accent);font-weight:700;margin-right:6px}
+  .q .qtext{font-size:15.5px;margin-bottom:10px}
+  .q .qen{font-family:"Fraunces",serif}
+  .opts{display:flex;flex-direction:column;gap:8px}
+  .opt{border:1px solid var(--line-strong);background:var(--card);border-radius:12px;padding:11px 14px;cursor:pointer;font-family:inherit;font-size:15px;text-align:left;transition:all .15s;display:flex;align-items:center;gap:10px}
+  .opt .mk{width:22px;height:22px;border-radius:50%;border:2px solid var(--line-strong);flex:0 0 auto;display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff}
+  .opt .opt-en{font-family:"Fraunces",serif}
+  .opt:hover{border-color:var(--accent)}
+  .opt.correct{background:var(--safe-wash);border-color:var(--safe)}
+  .opt.correct .mk{background:var(--safe);border-color:var(--safe)}
+  .opt.wrong{background:#FBE6E0;border-color:var(--accent)}
+  .opt.wrong .mk{background:var(--accent);border-color:var(--accent)}
+  .opt.disabled{pointer-events:none;opacity:.85}
+  .explain{display:none;margin-top:10px;padding:10px 14px;background:#FBF6EC;border-radius:10px;font-size:13.5px;color:var(--ink-soft);border-left:3px solid var(--safe)}
+  .explain.show{display:block}
+  .scorebar{position:sticky;bottom:0;background:rgba(34,28,21,.96);color:#fff;border-radius:14px;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;margin-top:20px;backdrop-filter:blur(8px)}
+  .scorebar button{background:var(--accent);color:#fff;border:none;font-family:inherit;padding:8px 16px;border-radius:30px;cursor:pointer;font-size:14px}
+  .scorebar .num{font-family:"Fraunces",serif;font-size:20px;font-weight:700}
+  .goal{display:flex;gap:14px;margin-bottom:16px}
+  .goal .ic{flex:0 0 44px;height:44px;border-radius:12px;background:var(--accent-wash);display:flex;align-items:center;justify-content:center;font-size:22px}
+  .goal .ic.safe{background:var(--safe-wash)}
+  .goal h3{font-size:16px;margin-bottom:3px}
+  .goal p{font-size:14px;color:var(--ink-soft)}
+  .goal .eg{font-family:"Fraunces",serif;color:var(--accent-deep);font-size:14.5px;margin-top:4px}
+  footer{text-align:center;padding:30px 20px;color:var(--ink-faint);font-size:13px;border-top:1px solid var(--line)}
+  .tip{background:var(--safe-wash);border-radius:12px;padding:12px 16px;font-size:13.5px;color:var(--safe);margin-bottom:18px;border:1px solid #cfe0d8}
+</style>
+</head>
+<body>
+
+<header>
+  <span class="kicker">중2 천재(소영순) · Lesson 4</span>
+  <h1>Open the Doors to the World
+    <span class="sub">— 에듀케레 영수학원 —</span>
+  </h1>
+  <p class="meta">대화문 · 본문 · 단어 · 표현 · 문법 · 확인문제</p>
+</header>
+
+<nav>
+  <div class="nav-scroll" id="nav">
+    <button class="active" data-tab="goal">학습 목표</button>
+    <button data-tab="dialogue">대화문</button>
+    <button data-tab="reading">본문</button>
+    <button data-tab="grammar">표현·문법</button>
+    <button data-tab="vocab">단어장</button>
+    <button data-tab="quiz">확인문제</button>
+  </div>
+</nav>
+
+<main>
+
+<!-- ============ 학습 목표 ============ -->
+<section class="tab show" id="goal">
+  <div class="section-head"><h2>Study Points</h2><span class="ko">이번 단원 핵심 한눈에 보기</span></div>
+  <p class="lead">세계 여러 문화와 장소를 소재로 <b>반복 요청하기</b>와 <b>장소 묘사하기</b>를 배우고, 어법으로는 <b>현재완료</b>와 <b>so … that ~</b> 구문을 학습합니다.</p>
+
+  <div class="card">
+    <div class="card-title"><span class="pill">FUNCTIONS</span> 의사소통 기능</div>
+    <div class="goal" style="margin-top:14px">
+      <div class="ic">🔁</div>
+      <div>
+        <h3>반복 요청하기</h3>
+        <p>상대방의 말을 잘 알아듣지 못해 다시 말해 달라고 할 때</p>
+        <div class="eg">"I beg your pardon?" / "Pardon?"</div>
+        <p style="margin-top:2px">뭐라고요? / 다시 한 번 말씀해 주시겠어요?</p>
+      </div>
+    </div>
+    <div class="goal">
+      <div class="ic safe">📍</div>
+      <div>
+        <h3>장소 묘사하기</h3>
+        <p>장소가 무엇으로 유명한지 설명할 때</p>
+        <div class="eg" style="color:var(--safe)">"New York is famous for Broadway musicals."</div>
+        <p style="margin-top:2px">뉴욕은 브로드웨이 뮤지컬로 유명하지.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="pill safe">FORMS</span> 목표 어법</div>
+    <div class="goal" style="margin-top:14px">
+      <div class="ic">⏳</div>
+      <div>
+        <h3>현재완료 (have/has + 과거분사)</h3>
+        <div class="eg">Hula <mark>has been</mark> a part of Hawaiian life for a long time.</div>
+        <p>훌라는 오랫동안 하와이 생활의 일부였다. (완료·경험·계속·결과)</p>
+      </div>
+    </div>
+    <div class="goal">
+      <div class="ic safe">🔗</div>
+      <div>
+        <h3>so … that ~ (너무 …해서 ~하다)</h3>
+        <div class="eg" style="color:var(--safe)">These gestures are <mark class="g">so simple that</mark> you can easily remember them.</div>
+        <p>이 동작들은 매우 간단해서 당신은 그것들을 쉽게 기억할 수 있다.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="tip">💡 각 탭의 <b>한글 보기</b> 버튼으로 해석을 켜고 끌 수 있어요. 대화문·본문 아래의 <b>문장분석</b>을 펼쳐 구문을 확인하고, 단어장과 확인문제로 점검하세요.</div>
+</section>
+
+<!-- ============ 대화문 ============ -->
+<section class="tab" id="dialogue">
+  <div class="section-head"><h2>Dialogues</h2><span class="ko">대화문 원본 + 해석 + 문장분석</span></div>
+  <p class="lead">노란색은 <mark>반복 요청하기</mark>, 초록색은 <mark class="g">장소 묘사하기</mark>입니다.</p>
+  <div class="toggle-row"><button class="toggle-btn" data-scope="dialogue">한글 보기 ON / OFF</button></div>
+  <div id="dialogue-wrap">
+
+  <div class="card">
+    <div class="card-title">Listen and Talk — A 1</div>
+    <div class="card-sub">타임스 스퀘어 길 묻기</div>
+    <div class="line"><span class="who">B</span><span class="en">Excuse me. How can I get to Times Square?</span><div class="ko-t">실례합니다. 타임스 스퀘어에 어떻게 가나요?</div></div>
+    <div class="line"><span class="who">W</span><span class="en"><mark>Pardon?</mark></span><div class="ko-t">뭐라고요?</div></div>
+    <div class="line"><span class="who">B</span><span class="en">I'm trying to find Times Square. Can you please help me?</span><div class="ko-t">저는 타임스 스퀘어를 찾고 있어요. 도와주실 수 있나요?</div></div>
+    <div class="line"><span class="who">W</span><span class="en">Ah, I got it. Go straight this way and turn left.</span><div class="ko-t">아, 알았어요. 이 길로 곧장 가서 왼쪽으로 도세요.</div></div>
+    <div class="line"><span class="who">B</span><span class="en">Go straight this way and turn left?</span><div class="ko-t">이 길로 곧장 가서 왼쪽으로 돌아요?</div></div>
+    <div class="line"><span class="who">W</span><span class="en">Right. You can't miss it.</span><div class="ko-t">맞아요. 쉽게 찾을 수 있을 거예요.</div></div>
+    <div class="line"><span class="who">B</span><span class="en">Thank you so much.</span><div class="ko-t">정말 감사합니다.</div></div>
+    <div class="line"><span class="who">W</span><span class="en">You're welcome. Have a great time.</span><div class="ko-t">천만에요. 즐거운 시간 보내세요.</div></div>
+    <details class="analysis"><summary>📝 문장분석</summary><div class="ana-body">
+      <div class="ana-item"><span class="ana-key">How can I get to + 장소?</span> — ~에 어떻게 가나요?</div>
+      <div class="ana-item g"><span class="ana-key">Pardon?</span> — 반복 요청하기. '뭐라고요?'(= I beg your pardon?).</div>
+      <div class="ana-item"><span class="ana-key">trying to find</span> — try+to부정사 = ~하려고 노력하다. Can you please ~? = ~해 주시겠어요?</div>
+      <div class="ana-item"><span class="ana-key">go straight / turn left</span> — 곧장 가다 / 왼쪽으로 돌다.</div>
+      <div class="ana-item"><span class="ana-key">You can't miss it.</span> — 쉽게 찾을 수 있다(못 보고 지나칠 수 없다).</div>
+    </div></details>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Listen and Talk — A 2</div>
+    <div class="card-sub">프레첼 사려고 줄 서기</div>
+    <div class="line"><span class="who">G</span><span class="en">Excuse me. Why are you standing in line?</span><div class="ko-t">실례합니다. 왜 줄을 서 계신가요?</div></div>
+    <div class="line"><span class="who">M</span><span class="en">Ah, I'm waiting to buy a pretzel.</span><div class="ko-t">아, 저는 프레첼을 사려고 기다리고 있어요.</div></div>
+    <div class="line"><span class="who">G</span><span class="en">Pret... <mark>I beg your pardon?</mark></span><div class="ko-t">프렛... 다시 한 번 말씀해 주시겠어요?</div></div>
+    <div class="line"><span class="who">M</span><span class="en">I said a pretzel. It is a salty type of bread with a unique shape.</span><div class="ko-t">프레첼이라고 말했어요. 그것은 독특한 모양의 짭짤한 종류의 빵입니다.</div></div>
+    <div class="line"><span class="who">G</span><span class="en">Oh, I see.</span><div class="ko-t">아, 그렇군요.</div></div>
+    <div class="line"><span class="who">M</span><span class="en">It's delicious. Give it a try!</span><div class="ko-t">맛있어요. 한번 먹어 봐요!</div></div>
+    <div class="line"><span class="who">G</span><span class="en">Okay. I'll join the line then. Thank you.</span><div class="ko-t">좋아요. 그럼 저도 같이 줄을 서야겠어요. 감사합니다.</div></div>
+    <details class="analysis"><summary>📝 문장분석</summary><div class="ana-body">
+      <div class="ana-item"><span class="ana-key">stand in line</span> — 줄을 서다. I'm waiting to buy ~ = 사려고 기다리는 중이다.</div>
+      <div class="ana-item g"><span class="ana-key">I beg your pardon?</span> — 반복 요청하기(= Can you repeat that? / What did you say?).</div>
+      <div class="ana-item"><span class="ana-key">I said (that) ~</span> — '저는 ~라고 했어요'(반복 요청에 대한 답).</div>
+      <div class="ana-item"><span class="ana-key">a salty type of bread with a unique shape</span> — 독특한 모양의 짭짤한 종류의 빵.</div>
+      <div class="ana-item"><span class="ana-key">Give it a try!</span> — 한번 해 봐요(시도하다).</div>
+    </div></details>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Listen and Talk — A 3</div>
+    <div class="card-sub">브로드웨이 뮤지컬 보기</div>
+    <div class="line"><span class="who">W</span><span class="en">Look! There are many musicals.</span><div class="ko-t">봐! 뮤지컬이 많이 있어.</div></div>
+    <div class="line"><span class="who">M</span><span class="en">Yeah. <mark class="g">New York is famous for</mark> Broadway musicals.</span><div class="ko-t">그래. 뉴욕은 브로드웨이 뮤지컬로 유명하지.</div></div>
+    <div class="line"><span class="who">W</span><span class="en">How about watching Cats? I heard the performances are amazing.</span><div class="ko-t">'캣츠'를 보는 게 어때? 연기가 놀랍다고 들었어.</div></div>
+    <div class="line"><span class="who">M</span><span class="en">That's a great idea.</span><div class="ko-t">좋은 생각이야.</div></div>
+    <div class="line"><span class="who">W</span><span class="en">Let's check the show times and get tickets.</span><div class="ko-t">공연 시간을 확인하고 표를 사자.</div></div>
+    <div class="line"><span class="who">M</span><span class="en">Perfect. I can't wait!</span><div class="ko-t">완벽해. 정말 기대된다!</div></div>
+    <details class="analysis"><summary>📝 문장분석</summary><div class="ana-body">
+      <div class="ana-item"><span class="ana-key">There are + 복수명사</span> — ~이 있다.</div>
+      <div class="ana-item g"><span class="ana-key">be famous for + 명사</span> — 장소 묘사하기. ~으로 유명하다.</div>
+      <div class="ana-item"><span class="ana-key">How about + -ing?</span> — ~하는 게 어때?(제안). amazing = 아주 놀라운.</div>
+      <div class="ana-item"><span class="ana-key">Let's + 동사원형</span> — ~하자.</div>
+      <div class="ana-item"><span class="ana-key">I can't wait!</span> — 정말 기대된다(기대 표현).</div>
+    </div></details>
+  </div>
+
+  <div class="card">
+    <div class="card-title">In Everyday Life</div>
+    <div class="card-sub">Mia와 Ben의 뉴욕 여행</div>
+    <div class="line"><span class="who">Mia</span><span class="en">Ben, I can't believe we're in New York!</span><div class="ko-t">Ben, 우리가 뉴욕에 있다는 게 믿기지 않아!</div></div>
+    <div class="line"><span class="who">Ben</span><span class="en">Yeah. This is my first time here.</span><div class="ko-t">그래. 난 여기 처음 와 봐.</div></div>
+    <div class="line"><span class="who">Mia</span><span class="en">Me, too. There are many places to visit. Where should we start?</span><div class="ko-t">나도 그래. 방문할 곳이 많아. 우리 어디서부터 시작해야 할까?</div></div>
+    <div class="line"><span class="who">Ben</span><span class="en">How about the Statue of Liberty?</span><div class="ko-t">자유의 여신상은 어때?</div></div>
+    <div class="line"><span class="who">Mia</span><span class="en"><mark>Pardon?</mark></span><div class="ko-t">뭐라고?</div></div>
+    <div class="line"><span class="who">Ben</span><span class="en">The Statue of Liberty. You know the big green statue of a woman.</span><div class="ko-t">자유의 여신상. 큰 초록색 여자 동상 알잖아.</div></div>
+    <div class="line"><span class="who">Mia</span><span class="en">Of course. It's a landmark of New York. Let's visit there first.</span><div class="ko-t">물론이지. 그것은 뉴욕의 랜드마크야. 먼저 거기에 가자.</div></div>
+    <div class="line"><span class="who">Ben</span><span class="en">Good. After that, maybe we can go to the Empire State Building. <mark class="g">It's famous for</mark> the fantastic view.</span><div class="ko-t">좋아. 그 후에는 엠파이어 스테이트 빌딩에 갈 수 있을 것 같아. 그것은 환상적인 전망으로 유명해.</div></div>
+    <div class="line"><span class="who">Mia</span><span class="en">That sounds great!</span><div class="ko-t">그게 좋겠다!</div></div>
+    <details class="analysis"><summary>📝 문장분석</summary><div class="ana-body">
+      <div class="ana-item"><span class="ana-key">I can't believe + 절</span> — 나는 ~라는 것을 믿을 수가 없다(놀라움). believe와 we 사이 that 생략.</div>
+      <div class="ana-item"><span class="ana-key">many places to visit</span> — to부정사의 형용사적 용법(방문할 곳들). Where should we start? = 의문사+조동사 의문문.</div>
+      <div class="ana-item"><span class="ana-key">How about + 명사구?</span> — ~은 어때?(= What about ~?).</div>
+      <div class="ana-item g"><span class="ana-key">Pardon?</span> — 반복 요청하기.</div>
+      <div class="ana-item g"><span class="ana-key">It's famous for ~</span> — 장소 묘사하기. It = the Empire State Building이라 is.</div>
+      <div class="ana-item"><span class="ana-key">Let's visit / sounds great</span> — Let's+동사원형. sound+형용사 = ~하게 들리다.</div>
+    </div></details>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Enjoy the Clip — A</div>
+    <div class="card-sub">홈 쇼핑 채널 (호주 여행 상품)</div>
+    <div class="line"><span class="who">W</span><span class="en">Welcome back to our home shopping channel. Are you tired from the summer heat these days? We have the perfect solution for you, a trip to Australia! It's summer here in Korea, but it's winter in Australia now. This country <mark class="g">is famous for</mark> its unique wild animals. Look! You'll meet these cute koalas. Then you'll also visit the famous Sydney Opera House, too. Don't miss this chance! Call us and book now. Winter in Australia is waiting for you.</span><div class="ko-t">저희 홈 쇼핑 채널에 다시 오신 것을 환영합니다! 요즘 여름 더위에 지치셨나요? 여러분을 위해 호주 여행이라는 완벽한 해결책이 준비되어 있습니다! 여기 한국은 여름이지만 지금 호주는 겨울입니다. 이 나라는 독특한 야생 동물들로 유명합니다. 보세요! 여러분은 이 귀여운 코알라들을 만나게 될 거예요. 그리고 유명한 시드니 오페라 하우스도 방문하실 거예요. 이 기회를 놓치지 마세요! 지금 저희에게 전화해서 예약하세요! 호주의 겨울이 여러분을 기다리고 있습니다.</div></div>
+    <details class="analysis"><summary>📝 문장분석</summary><div class="ana-body">
+      <div class="ana-item"><span class="ana-key">Welcome back to ~</span> — ~에 다시 온 것을 환영합니다.</div>
+      <div class="ana-item"><span class="ana-key">tired from ~ / these days</span> — ~으로 지친 / 요즘.</div>
+      <div class="ana-item"><span class="ana-key">the perfect solution for you, a trip to Australia</span> — 동격의 콤마(호주 여행이라는 완벽한 해결책).</div>
+      <div class="ana-item g"><span class="ana-key">This country is famous for ~</span> — 장소 묘사하기. This country = Australia → is.</div>
+      <div class="ana-item"><span class="ana-key">Don't miss this chance!</span> — 부정 명령문(Don't+동사원형). is waiting = 현재진행형.</div>
+    </div></details>
+  </div>
+
+  </div>
+</section>
+
+<!-- ============ 본문 ============ -->
+<section class="tab" id="reading">
+  <div class="section-head"><h2>Hula, More than Just a Dance</h2><span class="ko">본문 원본 + 해석 + 문장분석</span></div>
+  <p class="lead">노란색은 <mark>목표 어법(현재완료·so…that)</mark>입니다. 하와이 전통춤 훌라를 배우는 수업 이야기예요.</p>
+  <div class="toggle-row"><button class="toggle-btn" data-scope="reading">한글 보기 ON / OFF</button></div>
+  <div id="reading-wrap">
+
+  <div class="card">
+    <div class="story-title">❶ 훌라 수업의 시작</div>
+    <div class="para"><span class="pnum">1</span><span class="en">Aloha! Welcome to Hawaii! Aloha means "hello" or "goodbye" in the Hawaiian language. I'm Malia, and I'm your hula teacher for today. <mark>Have you heard</mark> of hula before? How much do you know about hula? Before we start our lesson, I want to tell you about it.</span>
+    <div class="ko-t">알로하! 하와이에 오신 것을 환영해요! '알로하'는 하와이어로 '안녕하세요' 또는 '안녕히 가세요'라는 뜻이에요. 저는 Malia이고 오늘 당신의 훌라 선생님이에요. 훌라에 대해 전에 들어 본 적이 있나요? 훌라에 대해 얼마나 알고 있나요? 수업을 시작하기 전에 그것에 대해 말씀드리고 싶어요.</div></div>
+    <div class="para"><span class="pnum">2</span><span class="en">Hula is a traditional dance from Hawaii, and it <mark>has been</mark> a part of Hawaiian life for a long time. The early Hawaiians didn't have a writing system, so they used hula to tell stories. Hula is a language through body movements, and it <mark>has passed down</mark> stories from one generation to the next.</span>
+    <div class="ko-t">훌라는 하와이의 전통 춤으로, 오랫동안 하와이 생활의 일부였어요. 초기 하와이인들은 문자가 없어서 이야기를 하기 위해 훌라를 사용했어요. 훌라는 몸의 움직임을 통한 언어로, 한 세대에서 다음 세대로 이야기를 전해 왔습니다.</div></div>
+    <details class="analysis"><summary>📝 ❶ 훌라 수업의 시작 문장분석</summary><div class="ana-body">
+      <div class="ana-item"><span class="ana-key">Welcome to ~ / in the Hawaiian language</span> — ~에 온 것을 환영하다 / 하와이어로(in = ~로).</div>
+      <div class="ana-item g"><span class="ana-key">Have you heard of ~ before?</span> — 목표 어법: 현재완료(경험) 의문문. before, ever 등과 함께.</div>
+      <div class="ana-item"><span class="ana-key">Before we start ~ / want to tell</span> — 시간 접속사 before. want+to부정사.</div>
+      <div class="ana-item g"><span class="ana-key">it has been a part of ~ for a long time</span> — 목표 어법: 현재완료(계속). for ~ 와 함께.</div>
+      <div class="ana-item"><span class="ana-key">used hula to tell stories</span> — to부정사 부사적 용법(목적). so = 그래서.</div>
+      <div class="ana-item g"><span class="ana-key">has passed down ~ from A to B</span> — 목표 어법: 현재완료(계속). pass ~ down = 전수하다.</div>
+    </div></details>
+  </div>
+
+  <div class="card">
+    <div class="story-title">❷ 훌라의 기본 동작</div>
+    <div class="para"><span class="pnum">3</span><span class="en">Now it's time to dance! Remember that you become a storyteller when you dance hula. You tell a story with your hands, feet, and hips. Oh, you need to take off your shoes and socks! Hula <mark>is always done</mark> barefoot.</span>
+    <div class="ko-t">이제 춤을 출 시간이에요! 훌라를 출 때는 당신이 이야기꾼이 된다는 것을 기억하세요. 당신은 당신의 손, 발, 엉덩이로 이야기를 하는 거예요. 아, 신발과 양말을 벗어야 해요! 훌라는 항상 맨발로 하거든요.</div></div>
+    <div class="para"><span class="pnum">4</span><span class="en">Let's start with the hand gestures. Every gesture in hula has a meaning. Wave your fingers while you move your arms up and down. This gesture <mark>is called</mark> ua in the Hawaiian language, and it means "rain." What about the sun? Hawaiians make a circle with their arms above their heads. That's ka lā, the "sun." These gestures are <mark>so simple that</mark> you can easily remember them.</span>
+    <div class="ko-t">손동작부터 시작할게요. 훌라의 모든 동작에는 의미가 있어요. 팔을 위아래로 움직이면서 손가락을 흔들어 보세요. 이 동작은 하와이어로 'ua'라고 불리고, '비'를 뜻해요. 태양은 어떨까요? 하와이 사람들은 팔을 머리 위로 올려 원을 만들어요. 그것이 '태양'인 'ka lā'입니다. 이 동작들은 매우 간단해서 당신은 그것들을 쉽게 기억할 수 있어요.</div></div>
+    <details class="analysis"><summary>📝 ❷ 훌라의 기본 동작 문장분석</summary><div class="ana-body">
+      <div class="ana-item"><span class="ana-key">it's time to dance / Remember that ~</span> — ~할 시간이다. 명령문 Remember + 명사절 that(생략 가능).</div>
+      <div class="ana-item"><span class="ana-key">when you dance hula / need to take off</span> — 시간 접속사 when. need+to부정사. take ~ off = 벗다.</div>
+      <div class="ana-item g"><span class="ana-key">is always done</span> — 목표 어법: 수동태(be+p.p.). 행위자 일반이라 by 생략.</div>
+      <div class="ana-item"><span class="ana-key">Every gesture ... has</span> — every+단수명사 → 단수동사 has. Wave ~ while ~ = 접속사 while(~하면서).</div>
+      <div class="ana-item g"><span class="ana-key">is called ua</span> — 수동태(call A B → A be called B).</div>
+      <div class="ana-item"><span class="ana-key">with their arms above their heads</span> — 「with+명사구+전치사구」 = ~가 …한 채로.</div>
+      <div class="ana-item g"><span class="ana-key">so simple that you can ~</span> — 목표 어법: so+형용사+that+절 = 너무 …해서 ~하다(= simple enough to ~).</div>
+    </div></details>
+  </div>
+
+  <div class="card">
+    <div class="story-title">❸ 훌라 수업의 마무리</div>
+    <div class="para"><span class="pnum">5</span><span class="en">Next, bend your knees a little and step from side to side. While you step to the side, move your hips naturally. Now move your hands with your hips and feet! Well, time's up! That's all for today.</span>
+    <div class="ko-t">다음으로, 무릎을 약간 구부리고 좌우로 걸음을 옮기세요. 옆으로 내딛는 동안 엉덩이를 자연스럽게 움직이세요. 이제 엉덩이와 발과 함께 손을 움직이세요! 자, 시간이 다 되었네요! 오늘은 여기까지예요.</div></div>
+    <div class="para"><span class="pnum">6</span><span class="en">Remember that hula is not just a dance. Hula is a language and a way of storytelling, so it is important to Hawaiians. As a hula teacher, I always try to continue the history and culture of Hawaii. If you want to learn more, come to my next class. Everyone is welcome. Aloha!</span>
+    <div class="ko-t">훌라는 단순한 춤이 아니라는 것을 기억하세요. 훌라는 언어이자 이야기하는 한 방법이어서 그것은 하와이 사람들에게 중요하답니다. 훌라 선생님으로서 저는 항상 하와이의 역사와 문화를 이어가기 위해 노력합니다. 더 배우고 싶으시다면 제 다음 수업에 오세요. 모두 환영해요. 알로하!</div></div>
+    <details class="analysis"><summary>📝 ❸ 훌라 수업의 마무리 문장분석</summary><div class="ana-body">
+      <div class="ana-item"><span class="ana-key">bend ~ and step ~</span> — 명령문 동사원형의 병렬. from side to side = 좌우로.</div>
+      <div class="ana-item"><span class="ana-key">While you step ~ / with your hips and feet</span> — 접속사 while(~하는 동안). with = ~와 함께.</div>
+      <div class="ana-item"><span class="ana-key">time's up / That's all for today</span> — (시간이) 다 되었다 / 오늘은 여기까지다.</div>
+      <div class="ana-item"><span class="ana-key">Remember that hula is not just a dance</span> — 명령문 + 명사절 that(생략 가능).</div>
+      <div class="ana-item"><span class="ana-key">~, so it is important to ~</span> — 접속사 so(그래서, 결과). a language and a way ~ 병렬.</div>
+      <div class="ana-item"><span class="ana-key">As a hula teacher / try to continue</span> — as = ~로서. try+to부정사 = ~하려고 노력하다.</div>
+      <div class="ana-item"><span class="ana-key">If you want to learn ~ / Everyone is</span> — 조건 접속사 If. Everyone은 단수 취급(is).</div>
+    </div></details>
+  </div>
+
+  </div>
+</section>
+
+<!-- ============ 표현·문법 ============ -->
+<section class="tab" id="grammar">
+  <div class="section-head"><h2>Expressions &amp; Grammar</h2><span class="ko">표현법 + 핵심 문법</span></div>
+
+  <div class="card">
+    <div class="card-title"><span class="pill">표현 1</span> 반복 요청하기</div>
+    <div class="card-sub">상대방의 말을 잘 알아듣지 못해 다시 말해 달라고 할 때</div>
+    <p class="ex-eng" style="font-size:18px"><b>I beg your pardon?</b> / <b>Pardon?</b></p>
+    <p class="ex-ko">뭐라고요? / 다시 한 번 말씀해 주시겠어요? (I beg your pardon?이 더 공손)</p>
+    <div class="gbox">
+      <div class="label">바꿔 쓸 수 있는 표현</div>
+      <ul class="ex-list">
+        <li><span class="ex-eng">Pardon me? / Excuse me? / (I'm) Sorry?</span></li>
+        <li><span class="ex-eng">Would you say that again (please)?</span> <span class="ex-ko">다시 말씀해 주시겠어요?</span></li>
+        <li><span class="ex-eng">Can you repeat that?</span> <span class="ex-ko">다시 말해 줄 수 있나요?</span></li>
+        <li><span class="ex-eng">What did you say?</span> <span class="ex-ko">뭐라고 말씀하셨어요?</span></li>
+      </ul>
+    </div>
+    <div class="tip" style="margin:8px 0 0">💡 응답은 <span class="eng">I said (that) ~.</span>처럼 같은 말을 천천히 다시 하거나 추가 설명을 덧붙여요.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="pill safe">표현 2</span> 장소 묘사하기</div>
+    <div class="card-sub">장소가 무엇으로 유명한지 설명할 때</div>
+    <p class="ex-eng" style="font-size:18px"><b>… is famous for</b> ~.</p>
+    <p class="ex-ko">…은 ~으로 유명하다.</p>
+    <div class="gbox">
+      <div class="label">바꿔 쓸 수 있는 표현 / 예문</div>
+      <ul class="ex-list">
+        <li><span class="ex-eng">… is well-known for ~. / … is renowned for ~.</span></li>
+        <li><span class="ex-eng">Paris is famous for the Eiffel Tower.</span> <span class="ex-ko">파리는 에펠탑으로 유명하다.</span></li>
+        <li><span class="ex-eng">Hawaii is well-known for its beautiful beaches.</span> <span class="ex-ko">하와이는 아름다운 해변으로 잘 알려져 있다.</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="pill">문법 A</span> 현재완료 (have/has + 과거분사)</div>
+    <div class="card-sub">과거의 일이 현재와 관련될 때</div>
+    <p style="font-size:14.5px;color:var(--ink-soft)">현재완료는 <b>'have/has+과거분사(p.p.)'</b> 형태로, 완료·경험·계속·결과의 의미를 나타냅니다. <b>yesterday, last week, ~ago</b> 같은 명확한 과거 시점 표현과는 함께 쓸 수 없어요.</p>
+    <table class="usage">
+      <tr><td>완료</td><td>I <b>have just finished</b> my homework. (just, already)</td></tr>
+      <tr><td>경험</td><td>Have you <b>heard</b> of hula <b>before</b>? (ever, never, before)</td></tr>
+      <tr><td>계속</td><td>Hula <b>has been</b> a part of Hawaiian life <b>for</b> a long time. (for, since)</td></tr>
+      <tr><td>결과</td><td>I <b>have lost</b> my key. (지금도 못 찾음)</td></tr>
+    </table>
+    <div class="gbox" style="margin-top:12px">
+      <div class="label">의문문 · 부정문</div>
+      <p style="font-size:14px;color:var(--ink-soft)">의문: <b>Have/Has+주어+p.p. ~?</b> → <span class="eng">Have you finished it?</span><br>부정: <b>have/has not(haven't/hasn't)+p.p.</b> → <span class="eng">I haven't finished it.</span></p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="pill safe">문법 B</span> so … that ~ (너무 …해서 ~하다)</div>
+    <div class="card-sub">정도를 강조하여 그 결과를 나타냄</div>
+    <p style="font-size:14.5px;color:var(--ink-soft)"><b>「so+형용사/부사+that+주어+동사」</b>는 '너무[매우] …해서 ~하다'라는 뜻으로, 앞의 정도가 뒤의 결과로 이어집니다.</p>
+    <div class="gbox">
+      <p class="ex-eng">These gestures are <b>so simple that</b> you can easily remember them.</p>
+      <p class="ex-ko">이 동작들은 매우 간단해서 그것들을 쉽게 기억할 수 있다.</p>
+      <p class="ex-eng" style="margin-top:8px">Spanish food is <b>so delicious that</b> it's her favorite food.</p>
+      <p class="ex-ko">스페인 음식은 매우 맛있어서 그녀가 가장 좋아하는 음식이다.</p>
+    </div>
+    <div class="tip" style="margin:8px 0 0">⚠️ <b>전환</b>: so+형/부+that+주어+<b>can</b> ~ = <b>형/부+enough+(for+목적격)+to부정사</b> / so+형/부+that+주어+<b>can't</b> ~ = <b>too+형/부+(for+목적격)+to부정사</b></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="pill">자주 나오는 어법</span> 시간·조건 접속사 · 수동태</div>
+    <div class="card-sub">본문·확인문제에 자주 등장</div>
+    <div class="label" style="font-weight:700;color:var(--accent-deep);font-size:14px;margin:6px 0 2px">시간·조건의 부사절 접속사</div>
+    <table class="usage">
+      <tr><td>when</td><td>~할 때 — when you dance hula</td></tr>
+      <tr><td>while</td><td>~하는 동안 — while you step to the side</td></tr>
+      <tr><td>before</td><td>~하기 전에 — before we start our lesson</td></tr>
+      <tr><td>if</td><td>(만약) ~하면 — if you want to learn more</td></tr>
+    </table>
+    <p style="font-size:13.5px;color:var(--ink-soft);margin-top:8px">⚠️ 시간·조건의 부사절에서는 미래의 일이라도 <b>현재시제</b>로 씁니다. (주절은 will 가능)</p>
+    <div class="gbox" style="margin-top:12px">
+      <div class="label">수동태 (be동사 + 과거분사)</div>
+      <p style="font-size:14px;color:var(--ink-soft)">주어가 동작을 '당하는' 대상일 때 사용. 행위자가 불분명하면 by 생략.</p>
+      <p class="ex-eng">Hula <b>is</b> always <b>done</b> barefoot.</p>
+      <p class="ex-eng" style="margin-top:6px">This gesture <b>is called</b> ua in the Hawaiian language.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 단어장 ============ -->
+<section class="tab" id="vocab">
+  <div class="section-head"><h2>Vocabulary</h2><span class="ko">단어장 (카드를 눌러 뜻 확인)</span></div>
+  <p class="hint">카드를 탭하면 뒤집혀 뜻이 나와요</p>
+  <div class="vocab-controls">
+    <button class="filter-btn active" data-filter="all">전체</button>
+    <button class="filter-btn" data-filter="d">대화문 단어</button>
+    <button class="filter-btn" data-filter="r">본문 단어</button>
+    <button class="filter-btn" id="flipAll" style="margin-left:auto;border-color:var(--ink);color:var(--ink)">전체 뒤집기</button>
+  </div>
+  <div class="vocab-grid" id="vocabGrid"></div>
+</section>
+
+<!-- ============ 확인문제 ============ -->
+<section class="tab" id="quiz">
+  <div class="section-head"><h2>Check-Up Quiz</h2><span class="ko">확인문제 (총 10문항)</span></div>
+  <p class="lead">보기를 누르면 정답·해설이 바로 나옵니다. 끝까지 풀고 점수를 확인하세요.</p>
+  <div id="quizWrap"></div>
+  <div class="scorebar">
+    <div><div class="num"><span id="score">0</span> / 10</div><div style="font-size:12px;color:#caa">맞힌 개수</div></div>
+    <button id="resetQuiz">다시 풀기</button>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  천재(소영순) 중2 · Lesson 4 <span class="eng">Open the Doors to the World</span><br>
+  에듀케레 바른교육연구소
+</footer>
+
+<script>
+/* ---------- TAB NAV ---------- */
+const nav=document.getElementById('nav');
+nav.addEventListener('click',e=>{
+  const b=e.target.closest('button[data-tab]'); if(!b)return;
+  document.querySelectorAll('#nav button').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('show'));
+  document.getElementById(b.dataset.tab).classList.add('show');
+  window.scrollTo({top:0,behavior:'smooth'});
+});
+
+/* ---------- 한글 보기 토글 ---------- */
+document.querySelectorAll('.toggle-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const wrap=document.getElementById(btn.dataset.scope+'-wrap');
+    wrap.classList.toggle('show-ko');
+  });
+});
+
+/* ---------- VOCAB ---------- */
+const vocab=[
+  // 대화문 단어 (d)
+  ['How can I get to ~?','~에 어떻게 가나요?','d'],['pardon','다시 한 번 말씀해 주시겠어요?','d'],['try to','~하려고 노력하다','d'],['go straight','곧장 가다','d'],
+  ['turn left','왼쪽으로 돌다','d'],['miss','놓치다','d'],['stand in line','줄을 서다','d'],['pretzel','프레첼','d'],
+  ['salty','짭짤한','d'],['unique','독특한','d'],['shape','모양','d'],['give it a try','한번 해 보다','d'],
+  ['join','합류하다, (줄에) 서다','d'],['be famous for','~으로 유명하다','d'],['amazing','아주 놀라운','d'],['I can\'t wait','정말 기대된다','d'],
+  ["I can't believe",'~라는 게 믿기지 않다','d'],['statue','동상','d'],['landmark','랜드마크, 명소','d'],['view','전망, 경치','d'],
+  ['tired from','~으로 지친','d'],['solution','해결책','d'],['book','예약하다','d'],['wild','야생의','d'],
+  // 본문 단어 (r)
+  ['welcome','환영하다; 환영받는','r'],['mean','~을 의미하다','r'],['Hawaiian','하와이의; 하와이인','r'],['language','언어','r'],
+  ['hear of','~에 대해 듣다','r'],['before','이전에; ~하기 전에','r'],['lesson','수업','r'],['traditional','전통의','r'],
+  ['part','부분, 일부','r'],['early','초기의; 일찍','r'],['system','체계','r'],['through','~을 통해','r'],
+  ['movement','움직임, 동작','r'],['pass ~ down','~을 물려주다, 전수하다','r'],['from A to B','A에서 B로','r'],['generation','세대','r'],
+  ['remember','~을 기억하다','r'],['storyteller','이야기꾼','r'],['hip','엉덩이','r'],['need','~해야 하다','r'],
+  ['take ~ off','(신발·옷 등)을 벗다','r'],['barefoot','맨발로','r'],['gesture','몸짓, 동작','r'],['meaning','의미','r'],
+  ['wave','~을 흔들다; 파도','r'],['up and down','위아래로','r'],['call','~을 …라고 부르다','r'],['rain','비','r'],
+  ['sun','해, 태양','r'],['circle','원, 동그라미','r'],['above','~의 위에','r'],['simple','간단한, 단순한','r'],
+  ['easily','쉽게','r'],['bend','~을 구부리다','r'],['knee','무릎','r'],['a little','약간','r'],
+  ['step','걸음을 옮기다, 내딛다','r'],['from side to side','좌우로','r'],['side','옆, 곁','r'],['naturally','자연스럽게','r'],
+  ['storytelling','이야기하기','r'],['continue','~을 계속하다','r'],['important','중요한','r'],['history','역사','r'],
+  ['culture','문화','r'],['next','다음의','r'],['class','수업','r'],['everyone','모두, 모든 사람','r']
+];
+const grid=document.getElementById('vocabGrid');
+function renderVocab(filter){
+  grid.innerHTML='';
+  vocab.filter(v=>filter==='all'||v[2]===filter).forEach(v=>{
+    const c=document.createElement('div');c.className='flip';
+    c.innerHTML=`<div class="flip-in">
+      <div class="flip-face flip-front">${v[0]}</div>
+      <div class="flip-face flip-back">${v[1]}<small>${v[2]==='d'?'대화문':'본문'}</small></div>
+    </div>`;
+    c.addEventListener('click',()=>c.classList.toggle('flipped'));
+    grid.appendChild(c);
+  });
+}
+renderVocab('all');
+document.querySelectorAll('.filter-btn[data-filter]').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.filter-btn[data-filter]').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');renderVocab(b.dataset.filter);
+  });
+});
+let allFlipped=false;
+document.getElementById('flipAll').addEventListener('click',()=>{
+  allFlipped=!allFlipped;
+  document.querySelectorAll('.flip').forEach(c=>c.classList.toggle('flipped',allFlipped));
+});
+
+/* ---------- QUIZ ---------- */
+const quiz=[
+  {q:'Hula ____ a part of Hawaiian life for a long time. <br><span class="qen" style="color:var(--ink-faint)">(현재완료·계속)</span>',
+   o:['is','was','has been','will be'],a:2,
+   ex:'for a long time(오랫동안)과 함께 \'계속\'을 나타내는 현재완료 → has been.'},
+  {q:'These gestures are ____ simple ____ you can easily remember them. <br><span class="qen" style="color:var(--ink-faint)">(so … that ~)</span>',
+   o:['too / to','so / that','very / so','enough / to'],a:1,
+   ex:'너무 …해서 ~하다 → so+형용사+that+주어+동사 구문.'},
+  {q:'상대방의 말을 잘 못 알아들어 다시 말해 달라고 할 때 쓰는 표현은?',
+   o:['I beg your pardon?','I can\'t wait!','That sounds great!','Give it a try!'],a:0,
+   ex:'I beg your pardon? / Pardon? = 반복 요청하기.'},
+  {q:'"New York is famous for Broadway musicals."의 뜻으로 알맞은 것은?',
+   o:['뉴욕에 가 본 적이 있다','뉴욕은 브로드웨이 뮤지컬로 유명하다','뉴욕에 뮤지컬이 없다','뉴욕에 어떻게 가나요?'],a:1,
+   ex:'be famous for ~ = ~으로 유명하다(장소 묘사하기).'},
+  {q:'Have you ____ of hula before? <br><span class="qen" style="color:var(--ink-faint)">(현재완료·경험)</span>',
+   o:['hear','heard','hearing','hears'],a:1,
+   ex:'현재완료 의문문 Have you+과거분사 ~? → heard. before는 경험과 함께.'},
+  {q:'단어와 뜻의 연결이 <b>틀린</b> 것은?',
+   o:['barefoot — 맨발로','gesture — 동작','continue — 계속하다','generation — 전망'],a:3,
+   ex:'generation은 "세대"입니다. ("전망"은 view)'},
+  {q:'Hula is always ____ barefoot. <br><span class="qen" style="color:var(--ink-faint)">(수동태)</span>',
+   o:['do','does','done','doing'],a:2,
+   ex:'훌라가 \'행해지는\' 대상 → 수동태 is done. always는 be동사와 p.p. 사이.'},
+  {q:'본문에서 \'비(rain)\'를 나타내는 훌라 손동작은?',
+   o:['팔을 머리 위로 올려 원 만들기','팔을 위아래로 움직이며 손가락 흔들기','무릎을 구부려 좌우로 걷기','손가락을 모아 꽃 모양 만들기'],a:1,
+   ex:'팔을 위아래로 움직이며 손가락을 흔드는 동작 = ua = 비. (원 만들기 = ka lā = 태양)'},
+  {q:'현재완료와 함께 쓸 수 <b>없는</b> 표현은?',
+   o:['for a long time','just','before','yesterday'],a:3,
+   ex:'yesterday, last week, ~ago 같은 명확한 과거 시점은 현재완료와 함께 쓸 수 없다.'},
+  {q:'시간·조건 부사절의 동사 형태가 <b>알맞은</b> 것은?',
+   o:['If you will want to learn, come.','When I will arrive, I\'ll call.','Before we start, I want to tell you.','While you will step, move.'],a:2,
+   ex:'시간·조건 부사절에서는 미래라도 현재시제. before we start(○). 나머지는 will이 잘못 쓰임.'}
+];
+const qWrap=document.getElementById('quizWrap');
+let answered={},score=0;
+function renderQuiz(){
+  qWrap.innerHTML='';answered={};score=0;document.getElementById('score').textContent=0;
+  quiz.forEach((item,i)=>{
+    const d=document.createElement('div');d.className='card q';
+    let opts=item.o.map((o,j)=>`<button class="opt" data-q="${i}" data-o="${j}"><span class="mk"></span><span class="opt-en">${o}</span></button>`).join('');
+    d.innerHTML=`<div class="qtext"><span class="qnum">Q${i+1}.</span>${item.q}</div>
+      <div class="opts">${opts}</div>
+      <div class="explain" id="ex${i}">💡 ${item.ex}</div>`;
+    qWrap.appendChild(d);
+  });
+}
+qWrap.addEventListener('click',e=>{
+  const b=e.target.closest('.opt');if(!b)return;
+  const qi=+b.dataset.q, oi=+b.dataset.o;
+  if(answered[qi]!==undefined)return;
+  answered[qi]=oi;
+  const correct=quiz[qi].a;
+  const opts=qWrap.querySelectorAll(`.opt[data-q="${qi}"]`);
+  opts.forEach(o=>{
+    o.classList.add('disabled');
+    const j=+o.dataset.o;
+    if(j===correct){o.classList.add('correct');o.querySelector('.mk').textContent='✓';}
+    if(j===oi&&oi!==correct){o.classList.add('wrong');o.querySelector('.mk').textContent='✕';}
+  });
+  if(oi===correct)score++;
+  document.getElementById('score').textContent=score;
+  document.getElementById('ex'+qi).classList.add('show');
+});
+document.getElementById('resetQuiz').addEventListener('click',()=>{renderQuiz();window.scrollTo({top:document.getElementById('quiz').offsetTop-60,behavior:'smooth'});});
+renderQuiz();
+</script>
+</body>
+</html>
